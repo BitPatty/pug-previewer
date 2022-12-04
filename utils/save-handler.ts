@@ -1,4 +1,4 @@
-type Save = { content: string; values: string };
+type Save = { projectName: string; content: string; values: string };
 
 type Saves = Record<string, Save>;
 
@@ -16,7 +16,7 @@ class SaveHandler {
     if (typeof window === 'undefined')
       throw new Error('Cannot save server side');
     const saves = SaveHandler.loadSaves();
-    const k = new Date().toLocaleString();
+    const k = `${save.projectName} (${new Date().toLocaleString()})`;
     saves[k] = save;
     localStorage.setItem('saves', JSON.stringify(saves));
     return k;

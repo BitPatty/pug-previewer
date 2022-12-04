@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 
 type RequiredProps = {
-  label: string;
   onClick: () => void | Promise<void>;
 };
 
 type OptionalProps = {
   disabled?: boolean;
+  label?: string;
   isLoading?: boolean;
   iconClass?: string;
-  theme?: 'primary' | 'link' | 'info' | 'success' | 'warning';
+  theme?: 'primary' | 'link' | 'info' | 'success' | 'warning' | 'danger';
 };
 
 const Button: React.FC<RequiredProps & OptionalProps> = ({
@@ -37,7 +37,7 @@ const Button: React.FC<RequiredProps & OptionalProps> = ({
           <i className={`fas ${iconClass}`}></i>
         </span>
       )}
-      <span>{label}</span>
+      {label && <span>{label}</span>}
     </button>
   );
 };

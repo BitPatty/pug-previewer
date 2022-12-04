@@ -11,6 +11,7 @@ const Home: React.FC = () => {
   const pugEditorRef = useRef<CodeEditorRef>(null);
   const jsonEditorRef = useRef<CodeEditorRef>(null);
 
+  const [projectName, setProjectName] = useState<string>('Unnamed Project');
   const [compiled, setCompiled] = useState<string>('');
   const [loadingCounter, setLoadingCounter] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
@@ -26,13 +27,18 @@ const Home: React.FC = () => {
         e.preventDefault();
         const content = pugEditorRef.current?.getValue() ?? '';
         const values = jsonEditorRef.current?.getValue() ?? '';
-        SaveHandler.addSave({ content, values });
+        SaveHandler.addSave({
+          projectName:
+            projectName.trim().length > 0 ? projectName : 'Unnamed Project',
+          content,
+          values,
+        });
       }
     };
 
     document.addEventListener('keydown', listener, false);
     return () => document.removeEventListener('keydown', listener);
-  }, []);
+  }, [projectName]);
 
   // Compile the template
   const compile = async (): Promise<void> => {
@@ -89,9 +95,15 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <div className="columns">
+      <div className="columns is-vcentered">
         <div className="column is-half">
-          <h1 className="title">Pug Preview</h1>
+          <h1 className="title is-inline">Pug Preview</h1>
+          <input
+            onChange={(v) => setProjectName(v.target.value)}
+            placeholder="Project Name"
+            className="input is-inline ml-4"
+            value={projectName}
+          />
         </div>
         <div className="column is-half has-text-right">
           <Button
