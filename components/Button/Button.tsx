@@ -27,7 +27,7 @@ const Button: React.FC<RequiredProps & OptionalProps> = ({
         'is-loading': isLoading,
         [`is-${theme}`]: theme != null,
       }).reduce((p, n) => `${p} ${n[1] ? n[0] : ''}`, ''),
-    [isLoading],
+    [isLoading, theme],
   );
 
   return (

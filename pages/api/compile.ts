@@ -12,7 +12,7 @@ const sendResponse = (
     .send(JSON.stringify(body));
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = (req: NextApiRequest, res: NextApiResponse): void => {
   if (req.method !== 'POST')
     return sendResponse(res, 405, { error: 'Invalid Operation' });
 
@@ -23,7 +23,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const compiled = pug.render(req.body.template, req.body.values ?? {});
     return sendResponse(res, 200, { compiled });
   } catch (err) {
-    console.error(err);
     return sendResponse(res, 500, {
       error: (err as Error)?.message ?? 'Unknown Error',
     });

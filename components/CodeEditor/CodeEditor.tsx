@@ -68,4 +68,6 @@ const CodeEditor = forwardRef<RefProps, RequiredProps & OptionalProps>(
   },
 );
 
+CodeEditor.displayName = 'CodeEditor';
+
 export default CodeEditor;
