@@ -117,6 +117,17 @@ const Home: React.FC = () => {
         </div>
         <div className="column is-half has-text-right">
           <Button
+            onClick={() =>
+              void window.open(
+                'https://github.com/bitpatty/pug-previewer',
+                '_blank',
+              )
+            }
+            theme="link"
+            iconClass="fa-code-branch"
+            label="GitHub"
+          />{' '}
+          <Button
             onClick={() => setShowSaveModal(true)}
             theme="info"
             iconClass="fa-list"
