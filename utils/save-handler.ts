@@ -1,4 +1,9 @@
-type Save = { projectName: string; content: string; values: string };
+type Save = {
+  projectName: string;
+  content: string;
+  values: string;
+  css: string;
+};
 
 type Saves = Record<string, Save>;
 

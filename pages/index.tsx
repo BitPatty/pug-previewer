@@ -10,6 +10,7 @@ import { SaveHandler } from '../utils';
 const Home: React.FC = () => {
   const pugEditorRef = useRef<CodeEditorRef>(null);
   const jsonEditorRef = useRef<CodeEditorRef>(null);
+  const cssEditorRef = useRef<CodeEditorRef>(null);
 
   const [projectName, setProjectName] = useState<string>('Unnamed Project');
   const [compiled, setCompiled] = useState<string>('');
@@ -19,19 +20,26 @@ const Home: React.FC = () => {
 
   // Add save event listener (Ctrl + S)
   useEffect(() => {
-    const listener = (e: KeyboardEvent): void => {
+    const listener = async (e: KeyboardEvent): Promise<void> => {
       if (
         (e.keyCode === 83 || e.key === 's') &&
         (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)
       ) {
         e.preventDefault();
+        await pugEditorRef.current?.format();
+        await jsonEditorRef.current?.format();
+        await cssEditorRef.current?.format();
+
         const content = pugEditorRef.current?.getValue() ?? '';
         const values = jsonEditorRef.current?.getValue() ?? '';
+        const css = cssEditorRef.current?.getValue() ?? '';
+
         SaveHandler.addSave({
           projectName:
             projectName.trim().length > 0 ? projectName : 'Unnamed Project',
           content,
           values,
+          css,
         });
       }
     };
@@ -51,6 +59,7 @@ const Home: React.FC = () => {
     try {
       const template = pugEditorRef.current?.getValue();
       const stringValues = jsonEditorRef.current?.getValue();
+      const css = cssEditorRef.current?.getValue();
 
       if (!template) return;
 
@@ -75,6 +84,7 @@ const Home: React.FC = () => {
         body: JSON.stringify({
           template,
           values,
+          css: css ?? '',
         }),
       });
 
@@ -115,16 +125,19 @@ const Home: React.FC = () => {
         </div>
       </div>
       <div className="columns">
-        <div className="column has-text-centered">
-          <h2 className="title is-4">Pug Template</h2>
+        <div className="column is-half has-text-centered">
+          <h2 className="title is-4">Pug Template (main.pug)</h2>
         </div>
-        <div className="column has-text-centered">
+        <div className="column is-one-quarter has-text-centered">
           <h2 className="title is-4">JSON Values</h2>
+        </div>
+        <div className="column is-one-quarter has-text-centered">
+          <h2 className="title is-4">CSS Styles (css.pug)</h2>
         </div>
       </div>
       <div className="columns">
         <div
-          className="column"
+          className="column is-half"
           style={{ height: '50vh', resize: 'vertical', overflow: 'auto' }}
         >
           <div style={{ height: '100%' }}>
@@ -132,11 +145,19 @@ const Home: React.FC = () => {
           </div>
         </div>
         <div
-          className="column"
+          className="column is-one-quarter"
           style={{ height: '50vh', resize: 'vertical', overflow: 'auto' }}
         >
           <div style={{ height: '100%' }}>
             <CodeEditor theme="vs-dark" language="json" ref={jsonEditorRef} />
+          </div>
+        </div>
+        <div
+          className="column is-one-quarter"
+          style={{ height: '50vh', resize: 'vertical', overflow: 'auto' }}
+        >
+          <div style={{ height: '100%' }}>
+            <CodeEditor theme="vs-dark" language="css" ref={cssEditorRef} />
           </div>
         </div>
       </div>
@@ -162,14 +183,27 @@ const Home: React.FC = () => {
           </div>
         )}
       </div>
+      {!error && compiled && compiled.trim().length > 0 && (
+        <div className="columns">
+          <div className="column">
+            <h3 className="title is-5">HTML Output:</h3>
+            <pre>{compiled}</pre>
+          </div>
+        </div>
+      )}
       {showSaveModal && (
         <SaveModal
           onClose={() => setShowSaveModal(false)}
           onRestore={(v) => {
-            const [p, j] = [pugEditorRef.current, jsonEditorRef.current];
-            if (!p || !j) return setError('Editor not initialized');
-            p.setValue(v.content);
-            j.setValue(v.values);
+            const [p, j, c] = [
+              pugEditorRef.current,
+              jsonEditorRef.current,
+              cssEditorRef.current,
+            ];
+            if (!p || !j || !c) return setError('Editor not initialized');
+            p.setValue(v.content ?? '');
+            j.setValue(v.values ?? '');
+            c.setValue(v.css ?? '');
             setShowSaveModal(false);
           }}
         />
