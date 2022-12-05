@@ -129,7 +129,7 @@ const Home: React.FC = () => {
           <h2 className="title is-4">Pug Template (main.pug)</h2>
         </div>
         <div className="column is-one-quarter has-text-centered">
-          <h2 className="title is-4">JSON Values (var.)</h2>
+          <h2 className="title is-4">JSON Values (vars.)</h2>
         </div>
         <div className="column is-one-quarter has-text-centered">
           <h2 className="title is-4">CSS Styles (css.pug)</h2>
