@@ -217,6 +217,7 @@ const Home: React.FC = () => {
             p.setValue(v.content ?? '');
             j.setValue(v.values ?? '');
             c.setValue(v.css ?? '');
+            setProjectName(v.projectName ?? 'Unnamed Project');
             setShowSaveModal(false);
           }}
         />
