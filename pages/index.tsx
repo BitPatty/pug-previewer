@@ -180,12 +180,12 @@ const Home: React.FC = () => {
         ) : (
           <>
             <div className="column is-half">
-              <h3 className="title is-5">Render:</h3>
+              <h3 className="title is-5 has-text-centered">Render</h3>
               <Preview content={compiled} />
             </div>
             <div className="column is-half">
               <div className="column">
-                <h3 className="title is-5">HTML Output:</h3>
+                <h3 className="title is-5 has-text-centered">HTML Output</h3>
                 <pre>{compiled}</pre>
               </div>
             </div>
