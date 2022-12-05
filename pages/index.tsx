@@ -129,7 +129,7 @@ const Home: React.FC = () => {
           <h2 className="title is-4">Pug Template (main.pug)</h2>
         </div>
         <div className="column is-one-quarter has-text-centered">
-          <h2 className="title is-4">JSON Values</h2>
+          <h2 className="title is-4">JSON Values (var.)</h2>
         </div>
         <div className="column is-one-quarter has-text-centered">
           <h2 className="title is-4">CSS Styles (css.pug)</h2>
@@ -178,19 +178,21 @@ const Home: React.FC = () => {
             <div className="notification is-danger">Error: {error}</div>
           </div>
         ) : (
-          <div className="column">
-            <Preview resizable content={compiled} />
-          </div>
+          <>
+            <div className="column is-half">
+              <h3 className="title is-5">Render:</h3>
+              <Preview content={compiled} />
+            </div>
+            <div className="column is-half">
+              <div className="column">
+                <h3 className="title is-5">HTML Output:</h3>
+                <pre>{compiled}</pre>
+              </div>
+            </div>
+          </>
         )}
       </div>
-      {!error && compiled && compiled.trim().length > 0 && (
-        <div className="columns">
-          <div className="column">
-            <h3 className="title is-5">HTML Output:</h3>
-            <pre>{compiled}</pre>
-          </div>
-        </div>
-      )}
+
       {showSaveModal && (
         <SaveModal
           onClose={() => setShowSaveModal(false)}
