@@ -107,7 +107,7 @@ const Home: React.FC = () => {
     <div>
       <div className="columns is-vcentered">
         <div className="column is-half">
-          <h1 className="title is-inline">Pug Preview</h1>
+          <h1 className="title is-inline">Pug Previewer</h1>
           <input
             onChange={(v) => setProjectName(v.target.value)}
             placeholder="Project Name"
