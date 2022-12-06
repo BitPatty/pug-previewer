@@ -197,6 +197,26 @@ const Home: React.FC = () => {
             <div className="column is-half">
               <div className="column">
                 <h3 className="title is-5 has-text-centered">HTML Output</h3>
+                <div className="mb-1">
+                  <Button
+                    theme="info"
+                    label="Copy as Base 64 (UTF-8)"
+                    onClick={() => {
+                      void navigator.clipboard.writeText(
+                        Buffer.from(
+                          new TextEncoder().encode(compiled),
+                        ).toString('base64'),
+                      );
+                    }}
+                  />{' '}
+                  <Button
+                    theme="info"
+                    label="Copy as Text"
+                    onClick={() => {
+                      void navigator.clipboard.writeText(compiled);
+                    }}
+                  />
+                </div>
                 <pre>{compiled}</pre>
               </div>
             </div>
